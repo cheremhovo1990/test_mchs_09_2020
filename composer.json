@@ -2,7 +2,7 @@
     "type": "project",
     "license": "proprietary",
     "require": {
-        "php": "^7.2.5",
+        "php": "^7.4.2",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "guzzlehttp/guzzle": "~6.0",
@@ -71,6 +71,9 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
+        ],
+        "setup": [
+            "php -r 'file_exists(__DIR__.\"/.env\") || copy(__DIR__.\"/.env.loc\",__DIR__.\"/.env\");'"
         ]
     },
     "conflict": {
