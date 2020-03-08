@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CurrencyController!{% endblock %}
+
+{% block body %}
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">NumCode</th>
+            <th scope="col">CharCode</th>
+            <th scope="col">Nominal</th>
+            <th scope="col">Name</th>
+            <th scope="col">Value</th>
+            <th scope="col">Date</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for currency in pagination %}
+                <tr>
+                    <th scope="row">{{ loop.index }}</th>
+                    <td>{{ currency.num_code }}</td>
+                    <td>{{ currency.char_code }}</td>
+                    <td>{{ currency.nominal }}</td>
+                    <td>{{ currency.name }}</td>
+                    <td>{{ currency.value }}</td>
+                    <td>{{ currency.datetime }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+{% endblock %}

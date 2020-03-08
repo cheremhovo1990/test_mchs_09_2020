@@ -6,3 +6,6 @@ composer setup
 ~~~
 создайте DATABASE в базе данных
 с конфигурируете базу данных в .env
+~~~
+npm run dev
+~~~
