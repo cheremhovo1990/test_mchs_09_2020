@@ -11,20 +11,35 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+/**
+ * Class CurrencyLoadCommand
+ * @package App\Command
+ */
 class CurrencyLoadCommand extends Command
 {
+    /**
+     * @var string
+     */
     protected static $defaultName = 'currency:load';
     /**
      * @var CurrencyService
      */
     private $currencyService;
 
+    /**
+     * CurrencyLoadCommand constructor.
+     * @param CurrencyService $currencyService
+     * @param string|null $name
+     */
     public function __construct(CurrencyService $currencyService, string $name = null)
     {
         parent::__construct($name);
         $this->currencyService = $currencyService;
     }
 
+    /**
+     *
+     */
     protected function configure()
     {
         $this
@@ -34,6 +49,12 @@ class CurrencyLoadCommand extends Command
         ;
     }
 
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return int
+     * @throws \Throwable
+     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);

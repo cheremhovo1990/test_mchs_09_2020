@@ -95,6 +95,8 @@ class CurrencyController extends AbstractController
     /**
      * @Route("/currency/load", name="currency_load")
      * @param Request $request
+     * @param CurrencyService $service
+     * @return RedirectResponse
      */
     public function load(Request $request, CurrencyService $service)
     {

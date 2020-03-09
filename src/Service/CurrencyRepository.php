@@ -22,6 +22,7 @@ class CurrencyRepository
 
 
     /**
+     * @param \DateTime $dateTime
      * @return array|Currency[]
      */
     public function get(\DateTime $dateTime): array

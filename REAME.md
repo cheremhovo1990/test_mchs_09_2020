@@ -3,9 +3,11 @@
 git clone 
 composer install
 composer setup
-~~~
-создайте DATABASE в базе данных
-с конфигурируете базу данных в .env
-~~~
+yarn install
 npm run dev
+~~~
+создайте DATABASE в базе данных и сконфигурируйте базу данных в .env
+настроить cron
+~~~
+0 6 * * * /path/bin/console currency:load
 ~~~

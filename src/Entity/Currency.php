@@ -69,16 +69,26 @@ class Currency
     }
 
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return int|null
+     */
     public function getNumCode(): ?int
     {
         return $this->num_code;
     }
 
+    /**
+     * @param int $num_code
+     * @return $this
+     */
     public function setNumCode(int $num_code): self
     {
         $this->num_code = $num_code;
@@ -86,11 +96,18 @@ class Currency
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getCharCode(): ?string
     {
         return $this->char_code;
     }
 
+    /**
+     * @param string $char_code
+     * @return $this
+     */
     public function setCharCode(string $char_code): self
     {
         $this->char_code = $char_code;
@@ -98,11 +115,18 @@ class Currency
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
+    /**
+     * @param string $name
+     * @return $this
+     */
     public function setName(string $name): self
     {
         $this->name = $name;
@@ -110,11 +134,18 @@ class Currency
         return $this;
     }
 
+    /**
+     * @return float|null
+     */
     public function getValue(): ?float
     {
         return $this->value;
     }
 
+    /**
+     * @param float $value
+     * @return $this
+     */
     public function setValue(float $value): self
     {
         $this->value = $value;
@@ -122,11 +153,18 @@ class Currency
         return $this;
     }
 
+    /**
+     * @return \DateTimeInterface|null
+     */
     public function getDate(): ?\DateTimeInterface
     {
         return $this->date;
     }
 
+    /**
+     * @param \DateTimeInterface $date
+     * @return $this
+     */
     public function setDate(\DateTimeInterface $date): self
     {
         $this->date = $date;
@@ -134,11 +172,18 @@ class Currency
         return $this;
     }
 
+    /**
+     * @return int|null
+     */
     public function getNominal(): ?int
     {
         return $this->nominal;
     }
 
+    /**
+     * @param int $nominal
+     * @return $this
+     */
     public function setNominal(int $nominal): self
     {
         $this->nominal = $nominal;

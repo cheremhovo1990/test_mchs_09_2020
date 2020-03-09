@@ -10,6 +10,10 @@ use App\Entity\Currency;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 
+/**
+ * Class CurrencyService
+ * @package App\Service
+ */
 class CurrencyService
 {
     /**
@@ -21,12 +25,22 @@ class CurrencyService
      */
     private $entityManager;
 
+    /**
+     * CurrencyService constructor.
+     * @param CurrencyRepository $currencyRepository
+     * @param EntityManagerInterface $entityManager
+     */
     public function __construct(CurrencyRepository $currencyRepository, EntityManagerInterface $entityManager)
     {
         $this->currencyRepository = $currencyRepository;
         $this->entityManager = $entityManager;
     }
 
+    /**
+     * @param \DateTime|null $datetime
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     public function load(\DateTime $datetime = null)
     {
         $datetime ??= new \DateTime();
