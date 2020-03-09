@@ -32,6 +32,24 @@
     <p>
         <a href="{{ path('currency_download', params.all()) }}" class="btn btn-primary">Загрузить</a>
     </p>
+    <div>
+        <form action="{{ path('currency_load') }}" method="post">
+            <input type="hidden" name="token" value="{{ csrf_token('load') }}" />
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <button class="btn btn-primary">Загрузить rbc</button>
+                    </div>
+
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <input type="text" name="date" value="{{ now }}" class="datepicker form-control">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
     <table class="table">
         <thead>
         <tr>
