@@ -31,6 +31,13 @@ class CurrencySearch
             $sql->andWhere('c.datetime = :datetime')
                 ->setParameter('datetime', $params['datetime']);
         }
+        $sort = 'c.id';
+        $direction = 'desc';
+        if (!empty($params['sort'])) {
+            $sort = $params['sort'];
+            $direction = $params['direction'];
+        }
+        $sql->orderBy($sort, $direction);
         return $sql;
     }
 }

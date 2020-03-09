@@ -33,12 +33,12 @@
         <thead>
         <tr>
             <th scope="col">#</th>
-            <th scope="col">NumCode</th>
-            <th scope="col">CharCode</th>
-            <th scope="col">Nominal</th>
-            <th scope="col">Name</th>
-            <th scope="col">Value</th>
-            <th scope="col">Date</th>
+            <th scope="col">{{ knp_pagination_sortable(pagination, 'NumCode', 'c.num_code') }}</th>
+            <th scope="col">{{ knp_pagination_sortable(pagination, 'CharCode', 'c.char_code') }}</th>
+            <th scope="col">{{ knp_pagination_sortable(pagination, 'Nominal', 'c.nominal') }}</th>
+            <th scope="col">{{ knp_pagination_sortable(pagination, 'Name', 'c.name') }}</th>
+            <th scope="col">{{ knp_pagination_sortable(pagination, 'Value', 'c.value') }}</th>
+            <th scope="col">{{ knp_pagination_sortable(pagination, 'Dete', 'c.datetime') }}</th>
         </tr>
         </thead>
         <tbody>
