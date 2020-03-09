@@ -1,6 +1,7 @@
 требование к среде: yarn npm mysql-8
 Команды для запуска проекта
 ~~~
+git clone git@github.com:cheremhovo1990/test_mchs_09_2020.git .
 composer install
 composer setup
 yarn install
