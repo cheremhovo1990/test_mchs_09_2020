@@ -85,7 +85,7 @@ class CurrencyController extends AbstractController
      */
     public function download(CurrencySearch $currencySearch, Request $request)
     {
-        $data  =$currencySearch->search($request->query->all())->execute()->fetchAll();
+        $data = $currencySearch->search($request->query->all())->execute()->fetchAll();
 
         $response = new JsonResponse($data);
         $response->headers->set('Content-Disposition', 'attachment; filename="currencies.json"');
