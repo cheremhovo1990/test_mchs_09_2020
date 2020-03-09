@@ -6,6 +6,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CurrencyRepository")
+ * @ORM\Table(name="currency",
+ *      uniqueConstraints={@ORM\UniqueConstraint(name="currency_un_date_char_code",columns={"date", "char_code"})}
+ * )
  */
 class Currency
 {
