@@ -6,6 +6,29 @@
     <p>
         <a href="{{ path('currency_chart') }}" class="btn btn-primary">Графика</a>
     </p>
+    <div>
+        <form action="">
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <select name="char_code" class="form-control">
+                            <option value=""></option>
+                            {% for key, charCode in dropDownCharCode %}
+                                <option value="{{ key }}" {{ key == params.get('char_code') ? 'selected': '' }}>{{ charCode }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <input type="text" name="datetime" class="datepicker form-control" value="{{ params.get('datetime') }}">
+                </div>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary">Пойск</button>
+                <a href="{{ path('currency') }}" class="btn btn-primary">Сброс</a>
+            </div>
+        </form>
+    </div>
     <table class="table">
         <thead>
         <tr>
