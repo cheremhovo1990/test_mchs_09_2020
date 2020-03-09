@@ -8,6 +8,17 @@
 // any CSS you import will output into a single css file (app.css in this case)
 import '../css/app.css';
 
+// Need jQuery? Install it with "yarn add jquery", then uncomment to import it.
+// require jQuery normally
 const $ = require('jquery');
+require('jquery-ui/ui/widgets/datepicker');
+// create global $ and jQuery variables
+global.$ = global.jQuery = $;
 require("popper.js");
 require('bootstrap');
+$.datepicker.setDefaults({
+    dateFormat: "yy-mm-dd"
+});
+$( function() {
+    $( ".datepicker" ).datepicker();
+} );

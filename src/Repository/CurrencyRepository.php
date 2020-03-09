@@ -6,6 +6,7 @@ use App\Entity\Currency;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\DBAL\Query\QueryBuilder;
+use Illuminate\Support\Collection;
 
 /**
  * @method Currency|null find($id, $lockMode = null, $lockVersion = null)
@@ -48,6 +49,25 @@ class CurrencyRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findAllByCharCode($charCode, $begin, $end)
+    {
+        return $this->_em
+            ->getConnection()
+            ->createQueryBuilder()
+            ->select(['datetime', 'value'])
+            ->from('currency', 'c')
+            ->andWhere('c.char_code = :char_code')
+            ->andWhere(':begin >= c.datetime')
+            ->andWhere(':end <= c.datetime')
+            ->setParameter('char_code', $charCode)
+            ->setParameter('begin', $begin)
+            ->setParameter('end', $end)
+            ->orderBy('c.datetime', 'ASC')
+            ->execute()
+            ->fetchAll();
+    }
+
     public function getQuery(): QueryBuilder
     {
         return $this->_em
@@ -55,5 +75,32 @@ class CurrencyRepository extends ServiceEntityRepository
             ->createQueryBuilder()
             ->select('*')
             ->from('currency', 'c');
+    }
+
+    public function findAllAsArray()
+    {
+        return $this->_em
+            ->getConnection()
+            ->createQueryBuilder()
+            ->select(['datetime', 'value', 'char_code'])
+            ->from('currency', 'c')
+            ->orderBy('c.datetime ASC, c.char_code')
+            ->execute()
+            ->fetchAll();
+    }
+
+    public function getDropDownCharCode()
+    {
+        return (new Collection($this->_em
+            ->getConnection()
+            ->createQueryBuilder()
+            ->select('char_code')
+            ->from('currency', 'c')
+            ->groupBy('char_code')
+            ->orderBy('c.char_code', 'ASC')
+            ->execute()
+            ->fetchAll()))
+            ->pluck('char_code', 'char_code')
+            ->toArray();
     }
 }
