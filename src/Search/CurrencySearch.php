@@ -8,6 +8,10 @@ namespace App\Search;
 
 use App\Repository\CurrencyRepository;
 
+/**
+ * Class CurrencySearch
+ * @package App\Search
+ */
 class CurrencySearch
 {
     /**
@@ -15,11 +19,19 @@ class CurrencySearch
      */
     private CurrencyRepository $currencyRepository;
 
+    /**
+     * CurrencySearch constructor.
+     * @param CurrencyRepository $currencyRepository
+     */
     public function __construct(CurrencyRepository $currencyRepository)
     {
         $this->currencyRepository = $currencyRepository;
     }
 
+    /**
+     * @param array $params
+     * @return \Doctrine\DBAL\Query\QueryBuilder
+     */
     public function search(array $params)
     {
         $sql = $this->currencyRepository->getQuery();
@@ -27,9 +39,9 @@ class CurrencySearch
             $sql->andWhere('c.char_code = :char_code')
                 ->setParameter('char_code', $params['char_code']);
         }
-        if (!empty($params['datetime'])) {
-            $sql->andWhere('c.datetime = :datetime')
-                ->setParameter('datetime', $params['datetime']);
+        if (!empty($params['date'])) {
+            $sql->andWhere('c.date = :date')
+                ->setParameter('date', $params['date']);
         }
         $sort = 'c.id';
         $direction = 'desc';

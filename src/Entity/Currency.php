@@ -39,7 +39,7 @@ class Currency
     /**
      * @ORM\Column(type="date")
      */
-    private $datetime;
+    private $date;
 
     /**
      * @ORM\Column(type="integer")
@@ -53,15 +53,15 @@ class Currency
      * @param $nominal
      * @param $name
      * @param $value
-     * @param \DateTimeInterface $datetime
+     * @param \DateTimeInterface $date
      */
-    public function __construct($num_code, $char_code, $nominal, $name, $value,\DateTimeInterface $datetime)
+    public function __construct($num_code, $char_code, $nominal, $name, $value,\DateTimeInterface $date)
     {
         $this->num_code = $num_code;
         $this->char_code = $char_code;
         $this->name = $name;
         $this->value = $value;
-        $this->datetime = $datetime;
+        $this->date = $date;
         $this->nominal = $nominal;
     }
 
@@ -119,14 +119,14 @@ class Currency
         return $this;
     }
 
-    public function getDatetime(): ?\DateTimeInterface
+    public function getDate(): ?\DateTimeInterface
     {
-        return $this->datetime;
+        return $this->date;
     }
 
-    public function setDatetime(\DateTimeInterface $datetime): self
+    public function setDate(\DateTimeInterface $date): self
     {
-        $this->datetime = $datetime;
+        $this->date = $date;
 
         return $this;
     }

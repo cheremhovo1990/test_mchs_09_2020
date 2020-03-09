@@ -20,7 +20,7 @@
                     </div>
                 </div>
                 <div class="col-6">
-                    <input type="text" name="datetime" class="datepicker form-control" value="{{ params.get('datetime') }}">
+                    <input type="text" name="date" class="datepicker form-control" value="{{ params.get('date') }}">
                 </div>
             </div>
             <div class="form-group">
@@ -38,7 +38,7 @@
             <th scope="col">{{ knp_pagination_sortable(pagination, 'Nominal', 'c.nominal') }}</th>
             <th scope="col">{{ knp_pagination_sortable(pagination, 'Name', 'c.name') }}</th>
             <th scope="col">{{ knp_pagination_sortable(pagination, 'Value', 'c.value') }}</th>
-            <th scope="col">{{ knp_pagination_sortable(pagination, 'Dete', 'c.datetime') }}</th>
+            <th scope="col">{{ knp_pagination_sortable(pagination, 'Date', 'c.date') }}</th>
         </tr>
         </thead>
         <tbody>
@@ -50,7 +50,7 @@
                     <td>{{ currency.nominal }}</td>
                     <td>{{ currency.name }}</td>
                     <td>{{ currency.value }}</td>
-                    <td>{{ currency.datetime }}</td>
+                    <td>{{ currency.date }}</td>
                 </tr>
             {% endfor %}
         </tbody>

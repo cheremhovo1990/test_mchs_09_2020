@@ -16,6 +16,10 @@ use Illuminate\Support\Collection;
  */
 class CurrencyRepository extends ServiceEntityRepository
 {
+    /**
+     * CurrencyRepository constructor.
+     * @param ManagerRegistry $registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Currency::class);
@@ -50,24 +54,33 @@ class CurrencyRepository extends ServiceEntityRepository
     }
     */
 
+    /**
+     * @param $charCode
+     * @param $begin
+     * @param $end
+     * @return mixed[]
+     */
     public function findAllByCharCode($charCode, $begin, $end)
     {
         return $this->_em
             ->getConnection()
             ->createQueryBuilder()
-            ->select(['datetime', 'value'])
+            ->select(['date', 'value'])
             ->from('currency', 'c')
             ->andWhere('c.char_code = :char_code')
-            ->andWhere(':begin >= c.datetime')
-            ->andWhere(':end <= c.datetime')
+            ->andWhere(':begin <= c.date')
+            ->andWhere(':end >= c.date')
             ->setParameter('char_code', $charCode)
             ->setParameter('begin', $begin)
             ->setParameter('end', $end)
-            ->orderBy('c.datetime', 'ASC')
+            ->orderBy('c.date', 'ASC')
             ->execute()
             ->fetchAll();
     }
 
+    /**
+     * @return QueryBuilder
+     */
     public function getQuery(): QueryBuilder
     {
         return $this->_em
@@ -77,6 +90,9 @@ class CurrencyRepository extends ServiceEntityRepository
             ->from('currency', 'c');
     }
 
+    /**
+     * @return mixed[]
+     */
     public function findAllAsArray()
     {
         return $this->_em
@@ -89,6 +105,9 @@ class CurrencyRepository extends ServiceEntityRepository
             ->fetchAll();
     }
 
+    /**
+     * @return array
+     */
     public function getDropDownCharCode()
     {
         return (new Collection($this->_em
