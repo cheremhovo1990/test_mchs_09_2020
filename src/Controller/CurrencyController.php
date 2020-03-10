@@ -18,7 +18,7 @@ class CurrencyController extends AbstractController
 {
     /**
      * @Route("/", name="currency")
-     * @param CurrencyRepository $currencyRepository
+     * @param CurrencyUnitRepository $currencyUnitRepository
      * @param PaginatorInterface $paginator
      * @param Request $request
      * @param CurrencySearch $currencySearch
@@ -26,7 +26,6 @@ class CurrencyController extends AbstractController
      * @throws \Exception
      */
     public function index(
-        CurrencyRepository $currencyRepository,
         CurrencyUnitRepository $currencyUnitRepository,
         PaginatorInterface $paginator,
         Request $request,
@@ -40,7 +39,6 @@ class CurrencyController extends AbstractController
         $now = (new \DateTime())->format('Y-m-d');
 
         return $this->render('currency/index.html.twig', [
-            'controller_name' => 'CurrencyController',
             'pagination' => $pagination,
             'dropDownCharCode' => $currencyUnitRepository->getDropDown(),
             'params' => $params,
