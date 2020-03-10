@@ -35,14 +35,15 @@ class CurrencySearch
     public function search(array $params)
     {
         $sql = $this->currencyRepository->getQuery();
-        if (!empty($params['char_code'])) {
-            $sql->andWhere('c.char_code = :char_code')
-                ->setParameter('char_code', $params['char_code']);
+
+/*        if (!empty($params['char_code'])) {
+            $sql->andWhere('c.charCode = :char_code')
+                ->setParameter('charCode', $params['char_code']);
         }
         if (!empty($params['date'])) {
             $sql->andWhere('c.date = :date')
                 ->setParameter('date', $params['date']);
-        }
+        }*/
         $sort = 'c.id';
         $direction = 'desc';
         if (!empty($params['sort'])) {

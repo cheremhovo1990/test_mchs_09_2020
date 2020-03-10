@@ -66,12 +66,12 @@
             {% for currency in pagination %}
                 <tr>
                     <th scope="row">{{ loop.index }}</th>
-                    <td>{{ currency.num_code }}</td>
-                    <td>{{ currency.char_code }}</td>
+                    <td>{{ currency.currencyUnit.numCode }}</td>
+                    <td>{{ currency.currencyUnit.charCode }}</td>
                     <td>{{ currency.nominal }}</td>
-                    <td>{{ currency.name }}</td>
+                    <td>{{ currency.currencyUnit.name }}</td>
                     <td>{{ currency.value }}</td>
-                    <td>{{ currency.date }}</td>
+                    <td>{{ currency.date.format('Y-m-d') }}</td>
                 </tr>
             {% endfor %}
         </tbody>

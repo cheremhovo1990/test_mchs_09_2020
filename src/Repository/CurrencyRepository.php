@@ -5,7 +5,7 @@ namespace App\Repository;
 use App\Entity\Currency;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\DBAL\Query\QueryBuilder;
+use Doctrine\ORM\QueryBuilder;
 use Illuminate\Support\Collection;
 
 /**
@@ -52,13 +52,9 @@ class CurrencyRepository extends ServiceEntityRepository
     /**
      * @return QueryBuilder
      */
-    public function getQuery(): QueryBuilder
+public function getQuery(): QueryBuilder
     {
-        return $this->_em
-            ->getConnection()
-            ->createQueryBuilder()
-            ->select('*')
-            ->from('currency', 'c');
+        return $this->createQueryBuilder('c');
     }
 
     /**

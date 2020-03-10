@@ -9,6 +9,7 @@ namespace App\Repository;
 use App\Entity\CurrencyUnit;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Illuminate\Support\Collection;
 
 
 /**
@@ -43,5 +44,20 @@ class CurrencyUnitRepository extends ServiceEntityRepository
             ->setParameter('char_code', $charCode)
             ->getQuery()
             ->getOneOrNullResult();
+    }
+
+    /**
+     * @return array
+     */
+    public function getDropDown()
+    {
+
+        return (new Collection($this->createQueryBuilder('cu')
+            ->orderBy('cu.charCode', 'ASC')
+            ->getQuery()
+            ->getArrayResult()
+        ))
+            ->pluck('charCode', 'charCode')
+            ->toArray();
     }
 }

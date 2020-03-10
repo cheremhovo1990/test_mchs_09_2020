@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\CurrencyRepository;
+use App\Repository\CurrencyUnitRepository;
 use App\Search\CurrencySearch;
 use App\Service\CurrencyService;
 use Illuminate\Support\Collection;
@@ -11,7 +12,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class CurrencyController extends AbstractController
@@ -27,6 +27,7 @@ class CurrencyController extends AbstractController
      */
     public function index(
         CurrencyRepository $currencyRepository,
+        CurrencyUnitRepository $currencyUnitRepository,
         PaginatorInterface $paginator,
         Request $request,
         CurrencySearch $currencySearch
@@ -37,10 +38,11 @@ class CurrencyController extends AbstractController
         $sql = $currencySearch->search($params->all());
         $pagination = $paginator->paginate($sql, $request->get('page', 1));
         $now = (new \DateTime())->format('Y-m-d');
+
         return $this->render('currency/index.html.twig', [
             'controller_name' => 'CurrencyController',
             'pagination' => $pagination,
-            'dropDownCharCode' => $currencyRepository->getDropDownCharCode(),
+            'dropDownCharCode' => $currencyUnitRepository->getDropDown(),
             'params' => $params,
             'now' => $now
         ]);
