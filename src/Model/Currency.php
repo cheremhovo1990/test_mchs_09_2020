@@ -50,7 +50,7 @@ class Currency
      */
     public function __construct($numCode, $charCode, $nominal, $name, float $value, \DateTime $datetime)
     {
-        $this->numCode = $numCode;
+        $this->numCode = (int)$numCode;
         $this->charCode = $charCode;
         $this->name = $name;
         $this->value = $value;

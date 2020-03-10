@@ -36,10 +36,10 @@ class CurrencyRepository
 
         foreach ($document->Valute as $valute) {
             $result[] = new Currency(
-                $valute->NumCode,
-                $valute->CharCode,
-                $valute->Nominal,
-                $valute->Name,
+                $valute->NumCode->__toString(),
+                $valute->CharCode->__toString(),
+                $valute->Nominal->__toString(),
+                $valute->Name->__toString(),
                 (float)str_replace(',', '.', $valute->Value),
                 clone $dateTime
             );

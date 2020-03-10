@@ -41,23 +41,19 @@ class Currency
 
     /**
      * Currency constructor.
-     * @param $num_code
-     * @param $char_code
      * @param $nominal
-     * @param $name
      * @param $value
      * @param \DateTimeInterface $date
+     * @return Currency
      */
-    public function __construct($num_code, $char_code, $nominal, $name, $value,\DateTimeInterface $date)
+    public static function create($nominal, $value, \DateTimeInterface $date)
     {
-        $this->num_code = $num_code;
-        $this->char_code = $char_code;
-        $this->name = $name;
-        $this->value = $value;
-        $this->date = $date;
-        $this->nominal = $nominal;
+        $model = new static();
+        return $model
+            ->setValue($value)
+            ->setNominal($nominal)
+            ->setDate($date);
     }
-
 
     /**
      * @return int|null
@@ -65,63 +61,6 @@ class Currency
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getNumCode(): ?int
-    {
-        return $this->num_code;
-    }
-
-    /**
-     * @param int $num_code
-     * @return $this
-     */
-    public function setNumCode(int $num_code): self
-    {
-        $this->num_code = $num_code;
-
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getCharCode(): ?string
-    {
-        return $this->char_code;
-    }
-
-    /**
-     * @param string $char_code
-     * @return $this
-     */
-    public function setCharCode(string $char_code): self
-    {
-        $this->char_code = $char_code;
-
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param string $name
-     * @return $this
-     */
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
     }
 
     /**

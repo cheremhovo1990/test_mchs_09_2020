@@ -40,18 +40,6 @@ class CurrencyLoadsCommand extends Command
     }
 
     /**
-     *
-     */
-    protected function configure()
-    {
-        $this
-            ->setDescription('Add a short description for your command')
-            ->addArgument('arg1', InputArgument::OPTIONAL, 'Argument description')
-            ->addOption('option1', null, InputOption::VALUE_NONE, 'Option description')
-        ;
-    }
-
-    /**
      * @param InputInterface $input
      * @param OutputInterface $output
      * @return int
@@ -60,7 +48,6 @@ class CurrencyLoadsCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $arg1 = $input->getArgument('arg1');
 
         $datePeriod = new \DatePeriod(
             \DateTime::createFromFormat('Y.m.d', '2018.1.1'),
@@ -76,7 +63,7 @@ class CurrencyLoadsCommand extends Command
             }
         }
 
-        $io->success('You have a new command! Now make it your own! Pass --help to see your options.');
+        $io->success('Упешно');
 
         return 0;
     }
