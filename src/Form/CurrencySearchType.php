@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Repository\CurrencyUnitRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -31,6 +32,9 @@ class CurrencySearchType extends AbstractType
             ->add('currency_unit_id', ChoiceType::class, [
                 'attr' => ['class' => 'form-control'],
                 'choices' => ['' => ''] + array_combine(array_column($dropdown, 'charCode'), array_column($dropdown, 'id')),
+            ])
+            ->add('search', SubmitType::class, [
+                'attr' => ['class' => 'btn btn-primary'],
             ])
             ->setMethod('get')
         ;
