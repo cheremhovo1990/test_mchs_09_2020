@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CurrencyRepository")
  * @ORM\Table(name="currency",
- *      uniqueConstraints={@ORM\UniqueConstraint(name="currency_un_date_char_code",columns={"date", "char_code"})}
+ *      uniqueConstraints={@ORM\UniqueConstraint(name="currency_un_date_currency_unit_id",columns={"date", "currency_unit_id"})}
  * )
  */
 class Currency
@@ -18,21 +18,6 @@ class Currency
      * @ORM\Column(type="integer")
      */
     private $id;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $num_code;
-
-    /**
-     * @ORM\Column(type="string", length=3)
-     */
-    private $char_code;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $name;
 
     /**
      * @ORM\Column(type="decimal", precision=7, scale=3)
@@ -48,6 +33,11 @@ class Currency
      * @ORM\Column(type="integer")
      */
     private $nominal;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\CurrencyUnit", inversedBy="currencies")
+     */
+    private $currencyUnit;
 
     /**
      * Currency constructor.
@@ -187,6 +177,18 @@ class Currency
     public function setNominal(int $nominal): self
     {
         $this->nominal = $nominal;
+
+        return $this;
+    }
+
+    public function getCurrencyUnit(): ?CurrencyUnit
+    {
+        return $this->currencyUnit;
+    }
+
+    public function setCurrencyUnit(?CurrencyUnit $currencyUnit): self
+    {
+        $this->currencyUnit = $currencyUnit;
 
         return $this;
     }
