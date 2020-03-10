@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Form\CurrencySearchType;
 use App\Repository\CurrencyRepository;
 use App\Repository\CurrencyUnitRepository;
 use App\Search\CurrencySearch;
@@ -34,15 +35,16 @@ class CurrencyController extends AbstractController
     {
 
         $params = $request->query;
-        $sql = $currencySearch->search($params->all());
+        $sql = $currencySearch->search($params->get('currency_search', []));
         $pagination = $paginator->paginate($sql, $request->get('page', 1));
         $now = (new \DateTime())->format('Y-m-d');
-
+        $formSearch = $this->createForm(CurrencySearchType::class);
+        $formSearch->setData($params->get('currency_search', []));
         return $this->render('currency/index.html.twig', [
             'pagination' => $pagination,
-            'dropDownCharCode' => $currencyUnitRepository->getDropDown(),
             'params' => $params,
-            'now' => $now
+            'now' => $now,
+            'formSearch' => $formSearch->createView()
         ]);
     }
 

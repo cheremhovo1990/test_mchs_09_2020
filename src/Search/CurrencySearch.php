@@ -6,6 +6,7 @@ declare(strict_types=1);
 namespace App\Search;
 
 
+use App\Entity\CurrencyUnit;
 use App\Repository\CurrencyRepository;
 
 /**
@@ -36,14 +37,15 @@ class CurrencySearch
     {
         $sql = $this->currencyRepository->getQuery();
 
-/*        if (!empty($params['char_code'])) {
-            $sql->andWhere('c.charCode = :char_code')
-                ->setParameter('charCode', $params['char_code']);
+        if (!empty($params['currency_unit_id'])) {
+            $sql->innerJoin(CurrencyUnit::class, 'cu', 'cu.id = c.currencyUnit');
+            $sql->andWhere('c.currencyUnit = :currency_unit_id')
+                ->setParameter('currency_unit_id', $params['currency_unit_id']);
         }
         if (!empty($params['date'])) {
             $sql->andWhere('c.date = :date')
                 ->setParameter('date', $params['date']);
-        }*/
+        }
         $sort = 'c.id';
         $direction = 'desc';
         if (!empty($params['sort'])) {

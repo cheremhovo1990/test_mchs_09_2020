@@ -51,13 +51,10 @@ class CurrencyUnitRepository extends ServiceEntityRepository
      */
     public function getDropDown()
     {
-
-        return (new Collection($this->createQueryBuilder('cu')
+        return $this->createQueryBuilder('cu')
+            ->select(['cu.id', 'cu.charCode'])
             ->orderBy('cu.charCode', 'ASC')
             ->getQuery()
-            ->getArrayResult()
-        ))
-            ->pluck('charCode', 'charCode')
-            ->toArray();
+            ->getArrayResult();
     }
 }

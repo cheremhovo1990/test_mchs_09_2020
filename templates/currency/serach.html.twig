@@ -1,0 +1,18 @@
+<div>
+    {{ form_start(formSearch) }}
+        <div class="row">
+            <div class="col-6">
+                <div class="form-group">
+                    {{ form_row(formSearch.currency_unit_id) }}
+                </div>
+            </div>
+            <div class="col-6">
+                {{ form_row(formSearch.date) }}
+            </div>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary">Пойск</button>
+            <a href="{{ path('currency') }}" class="btn btn-primary">Сброс</a>
+        </div>
+    {{ form_end(formSearch) }}
+</div>
