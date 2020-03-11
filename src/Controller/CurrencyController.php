@@ -8,6 +8,7 @@ use App\Form\DownloadRbcFormType;
 use App\Repository\CurrencyRepository;
 use App\Repository\CurrencyUnitRepository;
 use App\Search\CurrencySearch;
+use App\Serializer\CurrencySerializer;
 use App\Service\CurrencyService;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -85,13 +86,17 @@ class CurrencyController extends AbstractController
      * @Route("/currency/download", name="currency_download")
      * @param CurrencySearch $currencySearch
      * @param Request $request
+     * @param CurrencySerializer $currencySerializer
      * @return JsonResponse
      */
-    public function download(CurrencySearch $currencySearch, Request $request)
+    public function download(
+        CurrencySearch $currencySearch,
+        Request $request,
+        CurrencySerializer $currencySerializer
+    )
     {
-        $data = $currencySearch->search($request->query->all())->execute()->fetchAll();
-
-        $response = new JsonResponse($data);
+        $currencies = $currencySearch->search($request->query->all())->getQuery()->getResult();
+        $response = new JsonResponse( $currencySerializer->serialize($currencies));
         $response->headers->set('Content-Disposition', 'attachment; filename="currencies.json"');
         return $response;
     }
