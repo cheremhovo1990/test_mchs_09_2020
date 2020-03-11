@@ -2,12 +2,12 @@
 
 namespace App\Controller;
 
+use App\Form\ChartFilterType;
 use App\Form\CurrencySearchType;
 use App\Repository\CurrencyRepository;
 use App\Repository\CurrencyUnitRepository;
 use App\Search\CurrencySearch;
 use App\Service\CurrencyService;
-use Illuminate\Support\Collection;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -35,11 +35,12 @@ class CurrencyController extends AbstractController
     {
 
         $params = $request->query;
-        $sql = $currencySearch->search($params->get('currency_search', []));
+        $formSearch = $this->createForm(CurrencySearchType::class);
+        $formSearch->handleRequest($request);
+        $sql = $currencySearch->search($formSearch->getData() ?? []);
         $pagination = $paginator->paginate($sql, $request->get('page', 1));
         $now = (new \DateTime())->format('Y-m-d');
-        $formSearch = $this->createForm(CurrencySearchType::class);
-        $formSearch->setData($params->get('currency_search', []));
+
         return $this->render('currency/index.html.twig', [
             'pagination' => $pagination,
             'params' => $params,
@@ -52,30 +53,32 @@ class CurrencyController extends AbstractController
      * @Route("/currency/chart", name="currency_chart")
      * @param Request $request
      * @param CurrencyRepository $currencyRepository
+     * @param CurrencyUnitRepository $currencyUnitRepository
      * @return \Symfony\Component\HttpFoundation\Response
-     * @throws \Exception
+     * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function chart(Request $request, CurrencyRepository $currencyRepository)
+    public function chart(
+        Request $request,
+        CurrencyRepository $currencyRepository,
+        CurrencyUnitRepository $currencyUnitRepository
+    )
     {
-        $dropDownCharCode = $currencyRepository->getDropDownCharCode();
-
-        $selectedCharCode = $request->get('char_code', array_key_first($dropDownCharCode));
-        $begin = $request->get('begin', (new \DateTime())->sub(new \DateInterval('P1Y'))->format('Y-m-d'));
-        $end = $request->get('end', (new \DateTime())->format('Y-m-d'));
-
-        $currencies = new Collection(
-            $currencyRepository->findAllByCharCode($selectedCharCode, $begin, $end)
+        $formFilter = $this->createForm(ChartFilterType::class);
+        $formFilter->handleRequest($request);
+        $currencyUnit = $currencyUnitRepository->find($formFilter->get('currency_unit_id')->getData());
+        $currencies = $currencyRepository->findAllByCharCode(
+            $currencyUnit->getId(),
+            $formFilter->get('begin')->getData(),
+            $formFilter->get('end')->getData()
         );
-        $currencies = $currencies->map(function ($value) {
-            return [$value['date'], (float)$value['value']];
-        })->toArray();
+        $currencies = array_map(function ($value) {
+            return [$value['date']->format('Y-m-d'), (float)$value['value']];
+        }, $currencies);
 
         return $this->render('currency/chart.html.twig', [
             'currencies' => $currencies,
-            'dropDownCharCode' => $dropDownCharCode,
-            'selectedCharCode' => $selectedCharCode,
-            'begin' => $begin,
-            'end' => $end
+            'currencyUnit' => $currencyUnit,
+            'formFilter' => $formFilter->createView(),
         ]);
     }
 

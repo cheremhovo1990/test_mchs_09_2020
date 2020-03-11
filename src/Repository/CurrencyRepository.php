@@ -3,8 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Currency;
+use App\Entity\CurrencyUnit;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use Illuminate\Support\Collection;
 
@@ -26,52 +28,31 @@ class CurrencyRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param $charCode
+     * @param $currentUnitId
      * @param $begin
      * @param $end
      * @return mixed[]
      */
-    public function findAllByCharCode($charCode, $begin, $end)
+    public function findAllByCharCode($currentUnitId, $begin, $end)
     {
-        return $this->_em
-            ->getConnection()
-            ->createQueryBuilder()
-            ->select(['date', 'value'])
-            ->from('currency', 'c')
-            ->andWhere('c.char_code = :char_code')
+        return $this->createQueryBuilder('c')
+            ->select(['c.date', 'c.value'])
+            ->andWhere('c.currencyUnit = :currency_unit_id')
             ->andWhere(':begin <= c.date')
             ->andWhere(':end >= c.date')
-            ->setParameter('char_code', $charCode)
+            ->setParameter('currency_unit_id', $currentUnitId)
             ->setParameter('begin', $begin)
             ->setParameter('end', $end)
             ->orderBy('c.date', 'ASC')
-            ->execute()
-            ->fetchAll();
+            ->getQuery()
+            ->getArrayResult();
     }
 
     /**
      * @return QueryBuilder
      */
-public function getQuery(): QueryBuilder
+    public function getQuery(): QueryBuilder
     {
         return $this->createQueryBuilder('c');
-    }
-
-    /**
-     * @return array
-     */
-    public function getDropDownCharCode()
-    {
-        return (new Collection($this->_em
-            ->getConnection()
-            ->createQueryBuilder()
-            ->select('char_code')
-            ->from('currency', 'c')
-            ->groupBy('char_code')
-            ->orderBy('c.char_code', 'ASC')
-            ->execute()
-            ->fetchAll()))
-            ->pluck('char_code', 'char_code')
-            ->toArray();
     }
 }

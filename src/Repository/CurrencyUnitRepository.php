@@ -57,4 +57,17 @@ class CurrencyUnitRepository extends ServiceEntityRepository
             ->getQuery()
             ->getArrayResult();
     }
+
+    /**
+     * @return mixed
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function findOneFirst()
+    {
+        return $this->createQueryBuilder('cu')
+            ->orderBy('cu.charCode', 'ASC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }

@@ -27,23 +27,18 @@ class CurrencySearchType extends AbstractType
         $dropdown = $this->currencyUnitRepository->getDropDown();
         $builder
             ->add('date', TextType::class, [
-                'attr' => ['class' => 'datepicker form-control']
+                'attr' => ['class' => 'datepicker form-control'],
+                'required' => false,
             ])
             ->add('currency_unit_id', ChoiceType::class, [
                 'attr' => ['class' => 'form-control'],
                 'choices' => ['' => ''] + array_combine(array_column($dropdown, 'charCode'), array_column($dropdown, 'id')),
+                'required' => false,
             ])
             ->add('search', SubmitType::class, [
                 'attr' => ['class' => 'btn btn-primary'],
             ])
             ->setMethod('get')
         ;
-    }
-
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults([
-            // Configure your form options here
-        ]);
     }
 }

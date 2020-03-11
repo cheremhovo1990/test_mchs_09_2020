@@ -8,6 +8,7 @@ namespace App\Search;
 
 use App\Entity\CurrencyUnit;
 use App\Repository\CurrencyRepository;
+use Doctrine\ORM\Query\Expr\Join;
 
 /**
  * Class CurrencySearch
@@ -38,7 +39,6 @@ class CurrencySearch
         $sql = $this->currencyRepository->getQuery();
 
         if (!empty($params['currency_unit_id'])) {
-            $sql->innerJoin(CurrencyUnit::class, 'cu', 'cu.id = c.currencyUnit');
             $sql->andWhere('c.currencyUnit = :currency_unit_id')
                 ->setParameter('currency_unit_id', $params['currency_unit_id']);
         }
