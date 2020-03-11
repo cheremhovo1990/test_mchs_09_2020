@@ -11,7 +11,9 @@ use App\Search\CurrencySearch;
 use App\Serializer\CurrencySerializer;
 use App\Service\CurrencyService;
 use Knp\Component\Pager\PaginatorInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\ErrorHandler\ErrorHandler;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -106,9 +108,14 @@ class CurrencyController extends AbstractController
      * @Route("/currency/load", name="currency_load")
      * @param Request $request
      * @param CurrencyService $service
+     * @param LoggerInterface $logger
      * @return RedirectResponse
      */
-    public function load(Request $request, CurrencyService $service)
+    public function load(
+        Request $request,
+        CurrencyService $service,
+        LoggerInterface $logger
+    )
     {
         $form = $this->createForm(DownloadRbcFormType::class);
         $form->handleRequest($request);
@@ -126,7 +133,8 @@ class CurrencyController extends AbstractController
             }
 
         } catch (\Throwable $exception) {
-            $this->addFlash('error', 'Ошибка');
+            $logger->error($exception->getMessage(), ['exception' => $exception]);
+            $this->addFlash('error', 'Возникла критическая ошибка. Обратитесь к администратуру сайта');
         }
 
         return new RedirectResponse($request->headers->get('referer'));
