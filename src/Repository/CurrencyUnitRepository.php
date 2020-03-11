@@ -9,8 +9,6 @@ namespace App\Repository;
 use App\Entity\CurrencyUnit;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
-use Illuminate\Support\Collection;
-
 
 /**
  * Class CurrencyUnitRepository
@@ -56,18 +54,5 @@ class CurrencyUnitRepository extends ServiceEntityRepository
             ->orderBy('cu.charCode', 'ASC')
             ->getQuery()
             ->getArrayResult();
-    }
-
-    /**
-     * @return mixed
-     * @throws \Doctrine\ORM\NonUniqueResultException
-     */
-    public function findOneFirst()
-    {
-        return $this->createQueryBuilder('cu')
-            ->orderBy('cu.charCode', 'ASC')
-            ->setMaxResults(1)
-            ->getQuery()
-            ->getOneOrNullResult();
     }
 }

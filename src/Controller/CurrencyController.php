@@ -20,7 +20,6 @@ class CurrencyController extends AbstractController
 {
     /**
      * @Route("/", name="currency")
-     * @param CurrencyUnitRepository $currencyUnitRepository
      * @param PaginatorInterface $paginator
      * @param Request $request
      * @param CurrencySearch $currencySearch
@@ -28,7 +27,6 @@ class CurrencyController extends AbstractController
      * @throws \Exception
      */
     public function index(
-        CurrencyUnitRepository $currencyUnitRepository,
         PaginatorInterface $paginator,
         Request $request,
         CurrencySearch $currencySearch

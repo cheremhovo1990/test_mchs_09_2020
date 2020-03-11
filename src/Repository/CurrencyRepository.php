@@ -3,12 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Currency;
-use App\Entity\CurrencyUnit;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
-use Illuminate\Support\Collection;
 
 /**
  * @method Currency|null find($id, $lockMode = null, $lockVersion = null)

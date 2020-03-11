@@ -5,10 +5,7 @@ declare(strict_types=1);
 
 namespace App\Search;
 
-
-use App\Entity\CurrencyUnit;
 use App\Repository\CurrencyRepository;
-use Doctrine\ORM\Query\Expr\Join;
 
 /**
  * Class CurrencySearch
@@ -32,7 +29,7 @@ class CurrencySearch
 
     /**
      * @param array $params
-     * @return \Doctrine\DBAL\Query\QueryBuilder
+     * @return \Doctrine\ORM\QueryBuilder
      */
     public function search(array $params)
     {
