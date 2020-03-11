@@ -8,6 +8,7 @@ namespace App\Service;
 
 use App\Entity\Currency;
 use App\Entity\CurrencyUnit;
+use App\Repository\CurrencyRepository as Repository;
 use App\Repository\CurrencyUnitRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -30,22 +31,31 @@ class CurrencyService
      * @var CurrencyUnitRepository
      */
     private CurrencyUnitRepository $currencyUnitRepository;
+    /**
+     * @var Repository
+     */
+    private Repository $repository;
+
+    public array $errors = [];
 
     /**
      * CurrencyService constructor.
      * @param CurrencyRepository $currencyRepository
      * @param CurrencyUnitRepository $currencyUnitRepository
      * @param EntityManagerInterface $entityManager
+     * @param Repository $repository
      */
     public function __construct(
         CurrencyRepository $currencyRepository,
         CurrencyUnitRepository $currencyUnitRepository,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        Repository $repository
     )
     {
         $this->currencyRepository = $currencyRepository;
         $this->entityManager = $entityManager;
         $this->currencyUnitRepository = $currencyUnitRepository;
+        $this->repository = $repository;
     }
 
     /**
@@ -61,9 +71,15 @@ class CurrencyService
 
         foreach ($datum as $data) {
             $currencyUnit = $this->getCurrencyUnit($data);
-            $currency = Currency::create($data->getNominal(), $data->getValue(), $data->getDatetime());
-            $currency->setCurrencyUnit($currencyUnit);
-            $this->entityManager->persist($currency);
+            $currency = $this->repository->findOneByUnitDate($currencyUnit->getId(), $data->getDatetime());
+            if (is_null($currency)) {
+                $currency = Currency::create($data->getNominal(), $data->getValue(), $data->getDatetime());
+                $currency->setCurrencyUnit($currencyUnit);
+                $this->entityManager->persist($currency);
+            } else {
+                $this->errors[] = "Курс валюты {$currencyUnit->getCharCode()} на {$data->getDatetime()->format('Y-m-d')} был загружен ранее";
+            }
+
         }
         $this->entityManager->flush();
     }

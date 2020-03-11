@@ -117,7 +117,14 @@ class CurrencyController extends AbstractController
         }
         try {
             $service->load($date);
-            $this->addFlash('success', 'Успешно');
+            if (!empty($service->errors)) {
+                foreach ($service->errors as $error) {
+                    $this->addFlash('error', $error);
+                }
+            } else {
+                $this->addFlash('success', 'Успешно');
+            }
+
         } catch (\Throwable $exception) {
             $this->addFlash('error', 'Ошибка');
         }

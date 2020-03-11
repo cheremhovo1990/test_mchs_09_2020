@@ -52,4 +52,20 @@ class CurrencyRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('c');
     }
+
+    /**
+     * @param $currencyUnitId
+     * @param \DateTime $datetime
+     * @return Currency|null
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function findOneByUnitDate($currencyUnitId, \DateTime $datetime): ?Currency
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.currencyUnit = :currencyUnitId AND c.date = :date')
+            ->setParameter('currencyUnitId', $currencyUnitId)
+            ->setParameter('date', $datetime->format('Y-m-d'))
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }
