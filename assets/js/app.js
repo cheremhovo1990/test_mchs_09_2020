@@ -22,3 +22,41 @@ $.datepicker.setDefaults({
 $( function() {
     $( ".datepicker" ).datepicker();
 } );
+
+if ($('#currency-chart').length) {
+    const $firstScript = $('script').eq(0);
+    const script = document.createElement('script');
+    const $script = $(script);
+
+    script.async = true;
+    $firstScript.before($script);
+    $script.on('load', function () {
+        google.charts.load('current', {'packages':['line']});
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            let currencies = $('#currency-chart').data('currencies');
+            console.log(currencies);
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Дата');
+            data.addColumn('number', $('#currency-chart').data('char-code'));
+
+            data.addRows(currencies);
+
+            var options = {
+                chart: {
+                    title: 'Box Office Earnings in First Two Weeks of Opening',
+                    subtitle: 'in millions of dollars (USD)'
+                },
+                width: 900,
+                height: 500
+            };
+
+            var chart = new google.charts.Line(document.getElementById('currency-chart'));
+
+            chart.draw(data, google.charts.Line.convertOptions(options));
+        }
+    });
+    script.src = 'https://www.gstatic.com/charts/loader.js';
+}
+
