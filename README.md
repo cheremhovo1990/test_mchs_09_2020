@@ -6,7 +6,7 @@ git clone git@github.com:cheremhovo1990/test_mchs_09_2020.git .
 composer setup
 composer install
 yarn install
-npm run dev
+npm run build
 ~~~
 создайте DATABASE в базе данных и сконфигурируйте базу данных в .env
 ~~~
