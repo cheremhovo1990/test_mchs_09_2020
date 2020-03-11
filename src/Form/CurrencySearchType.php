@@ -8,8 +8,11 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Class CurrencySearchType
+ * @package App\Form
+ */
 class CurrencySearchType extends AbstractType
 {
     /**
@@ -17,11 +20,19 @@ class CurrencySearchType extends AbstractType
      */
     private CurrencyUnitRepository $currencyUnitRepository;
 
+    /**
+     * CurrencySearchType constructor.
+     * @param CurrencyUnitRepository $currencyUnitRepository
+     */
     public function __construct(CurrencyUnitRepository $currencyUnitRepository)
     {
         $this->currencyUnitRepository = $currencyUnitRepository;
     }
 
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $dropdown = $this->currencyUnitRepository->getDropDown();

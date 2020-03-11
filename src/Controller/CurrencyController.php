@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Form\ChartFilterType;
 use App\Form\CurrencySearchType;
+use App\Form\DownloadRbcFormType;
 use App\Repository\CurrencyRepository;
 use App\Repository\CurrencyUnitRepository;
 use App\Search\CurrencySearch;
@@ -39,13 +40,13 @@ class CurrencyController extends AbstractController
         $formSearch->handleRequest($request);
         $sql = $currencySearch->search($formSearch->getData() ?? []);
         $pagination = $paginator->paginate($sql, $request->get('page', 1));
-        $now = (new \DateTime())->format('Y-m-d');
+        $downloadRbc = $this->createForm(DownloadRbcFormType::class);
 
         return $this->render('currency/index.html.twig', [
             'pagination' => $pagination,
             'params' => $params,
-            'now' => $now,
-            'formSearch' => $formSearch->createView()
+            'downloadRbc' => $downloadRbc->createView(),
+            'formSearch' => $formSearch->createView(),
         ]);
     }
 
@@ -105,12 +106,10 @@ class CurrencyController extends AbstractController
      */
     public function load(Request $request, CurrencyService $service)
     {
-        if (!$this->isCsrfTokenValid('load', $request->request->get('token'))) {
-            return $this->redirectToRoute('currency');
-        }
-        $date = \DateTime::createFromFormat('Y-m-d',$request->request->get('date'));
-        if (!$date instanceof \DateTime) {
-            return $this->redirectToRoute('currency');
+        $form = $this->createForm(DownloadRbcFormType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $date = $form->get('date')->getData();
         }
         try {
             $service->load($date);

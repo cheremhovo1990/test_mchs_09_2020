@@ -3,14 +3,16 @@
 namespace App\Form;
 
 use App\Repository\CurrencyUnitRepository;
-use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Class ChartFilterType
+ * @package App\Form
+ */
 class ChartFilterType extends AbstractType
 {
     /**
@@ -18,12 +20,20 @@ class ChartFilterType extends AbstractType
      */
     private CurrencyUnitRepository $currencyUnitRepository;
 
+    /**
+     * ChartFilterType constructor.
+     * @param CurrencyUnitRepository $currencyUnitRepository
+     */
     public function __construct(CurrencyUnitRepository $currencyUnitRepository)
     {
         $this->currencyUnitRepository = $currencyUnitRepository;
     }
 
-
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     * @throws \Exception
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $dropdown = $this->currencyUnitRepository->getDropDown();
