@@ -34,7 +34,6 @@ class CurrencyController extends AbstractController
     )
     {
 
-        $params = $request->query;
         $formSearch = $this->createForm(CurrencySearchType::class);
         $formSearch->handleRequest($request);
         $sql = $currencySearch->search($formSearch->getData() ?? []);
@@ -43,7 +42,6 @@ class CurrencyController extends AbstractController
 
         return $this->render('currency/index.html.twig', [
             'pagination' => $pagination,
-            'params' => $params,
             'downloadRbc' => $downloadRbc->createView(),
             'formSearch' => $formSearch->createView(),
         ]);
@@ -95,7 +93,10 @@ class CurrencyController extends AbstractController
         CurrencySerializer $currencySerializer
     )
     {
-        $currencies = $currencySearch->search($request->query->all())->getQuery()->getResult();
+
+        $formSearch = $this->createForm(CurrencySearchType::class);
+        $formSearch->handleRequest($request);
+        $currencies = $currencySearch->search($formSearch->getData() ?? [])->getQuery()->getResult();
         $response = new JsonResponse( $currencySerializer->serialize($currencies));
         $response->headers->set('Content-Disposition', 'attachment; filename="currencies.json"');
         return $response;
