@@ -18,8 +18,16 @@ class CurrencyRepository
     /**
      * @var string
      */
-    protected $url = 'http://www.cbr.ru/scripts/XML_daily.asp';
+    protected string $url;
 
+    /**
+     * CurrencyRepository constructor.
+     * @param string $url
+     */
+    public function __construct(string $url)
+    {
+        $this->url = $url;
+    }
 
     /**
      * @param \DateTime $dateTime
