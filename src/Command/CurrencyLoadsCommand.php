@@ -3,6 +3,7 @@
 namespace App\Command;
 
 use App\Service\CurrencyService;
+use Carbon\Carbon;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -39,6 +40,15 @@ class CurrencyLoadsCommand extends Command
         $this->currencyService = $currencyService;
     }
 
+    protected function configure()
+    {
+        $this
+            // ...
+            ->addArgument('begin', InputArgument::REQUIRED, 'Дата начало загрузки (2018-12-01)')
+            ->addArgument('end', InputArgument::OPTIONAL, 'Дата конца загрузки (2020-01-01)')
+        ;
+    }
+
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
@@ -49,12 +59,20 @@ class CurrencyLoadsCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
+        if (!$begin = Carbon::createFromFormat('Y-m-d', $input->getArgument('begin'))) {
+            $io->error('Дата начало не корректна');
+        }
+        if (!$end = Carbon::createFromFormat('Y-m-d', $input->getArgument('end'))) {
+            $io->error('Дата конца не корректна');
+        }
+        if ($begin->greaterThan($end)) {
+            $io->error('Дата начало больше чем дата конца');
+        }
         $datePeriod = new \DatePeriod(
-            \DateTime::createFromFormat('Y.m.d', '2018.1.1'),
+            $begin,
             new \DateInterval('P1M'),
-            new \DateTime(),
+            $end,
         );
-
         foreach ($datePeriod as $date) {
             try {
                 $this->currencyService->load($date);
