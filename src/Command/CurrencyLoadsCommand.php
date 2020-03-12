@@ -4,6 +4,7 @@ namespace App\Command;
 
 use App\Service\CurrencyService;
 use Carbon\Carbon;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -25,6 +26,10 @@ class CurrencyLoadsCommand extends Command
      * @var CurrencyService
      */
     private CurrencyService $currencyService;
+    /**
+     * @var LoggerInterface
+     */
+    private LoggerInterface $logger;
 
     /**
      * CurrencyLoadsCommand constructor.
@@ -33,11 +38,13 @@ class CurrencyLoadsCommand extends Command
      */
     public function __construct(
         CurrencyService $currencyService,
+        LoggerInterface $logger,
         string $name = null
     )
     {
         parent::__construct($name);
         $this->currencyService = $currencyService;
+        $this->logger = $logger;
     }
 
     protected function configure()
@@ -77,6 +84,7 @@ class CurrencyLoadsCommand extends Command
             try {
                 $this->currencyService->load($date);
             } catch (\Throwable $e) {
+                $this->logger->error($e->getMessage(), ['exception' => $e]);
                 throw $e;
             }
         }
