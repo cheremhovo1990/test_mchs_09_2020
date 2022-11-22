@@ -717,7 +717,7 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
-"@symfony/webpack-encore@^0.28.2":
+"@symfony/webpack-encore@^0.28.3":
   version "0.28.3"
   resolved "https://registry.yarnpkg.com/@symfony/webpack-encore/-/webpack-encore-0.28.3.tgz#45b590f7b86beb7bb6918a95df89f42f72b796d0"
   integrity sha512-ZXnwU6uobDCRMbZhT99c42/6j9yIM9aGWgT/we6fdaEGgJJmO1dXl4heq+flL61K3wztQqW6G54N8Q6aPcz1Xw==
@@ -3424,6 +3424,18 @@ isobject@^3.0.0, isobject@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/isobject/-/isobject-3.0.1.tgz#4e431e92b11a9731636aa1f9c8d1ccbcfdab78df"
   integrity sha1-TkMekrEalzFjaqH5yNHMvP2reN8=
+
+jquery-ui@^1.12.1:
+  version "1.13.2"
+  resolved "https://registry.yarnpkg.com/jquery-ui/-/jquery-ui-1.13.2.tgz#de03580ae6604773602f8d786ad1abfb75232034"
+  integrity sha512-wBZPnqWs5GaYJmo1Jj0k/mrSkzdQzKDwhXNtHKcBdAcKVxMM3KNYFq+iJ2i1rwiG53Z8M4mTn3Qxrm17uH1D4Q==
+  dependencies:
+    jquery ">=1.8.0 <4.0.0"
+
+"jquery@>=1.8.0 <4.0.0":
+  version "3.6.1"
+  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.6.1.tgz#fab0408f8b45fc19f956205773b62b292c147a16"
+  integrity sha512-opJeO4nCucVnsjiXOE+/PcCgYw9Gwpvs/a6B1LL/lQhwWwpbVEVYDZ1FokFr8PRc7ghYlrFPuyHuiiDNTQxmcw==
 
 jquery@^3.4.1:
   version "3.4.1"
